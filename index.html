@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extended Todo List</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        background-color: #f0f0f0;
+    }
+    
+    header {
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+    
+    header h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+    
+    header .logo {
+        width: 50px;
+        height: 50px;
+        margin-left: auto;
+    }
+    
+    .main-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        width: 80%;
+        max-width: 1200px;
+        margin-top: 80px; /* Adjust to make space for header */
+    }
+    
+    .container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 45%;
+    }
+    
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .list-selector, .input-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    
+    input[type="text"], input[type="date"], select, textarea {
+        width: 70%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: #28a745;
+        color: white;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #218838;
+    }
+    
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    li {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    li:hover {
+        background-color: #f9f9f9;
+    }
+    
+    .item-text.completed {
+        text-decoration: line-through;
+        color: #888;
+    }
+    
+    .item-priority.high {
+        color: red;
+    }
+    
+    .item-priority.medium {
+        color: orange;
+    }
+    
+    .item-priority.low {
+        color: green;
+    }
+    
+    .calendar-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    #current-month-year {
+        font-weight: bold;
+    }
+    
+    #calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+        background-color: #000;
+        width: 100%;
+        height: auto;
+    }
+    
+    .calendar-cell {
+        background-color: #fff;
+        padding: 5px;
+        min-height: 60px;
+        position: relative;
+        border: 1px solid #ddd;
+    }
+    
+    .calendar-cell .date {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        font-weight: bold;
+    }
+    
+    .chip {
+        display: inline-block;
+        padding: 2px 5px;
+        border-radius: 12px;
+        margin: 2px 0;
+        cursor: pointer;
+        color: #fff;
+        font-size: 0.8em;
+    }
+    
+    .chip.low {
+        background-color: #28a745;
+    }
+    
+    .chip.medium {
+        background-color: #ffc107;
+    }
+    
+    .chip.high {
+        background-color: #dc3545;
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+    }
+    
+    .modal-content {
+        background-color: #fff;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        text-align: center;
+    }
+    
+    .modal-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    
+    .ok-button {
+        background-color: #28a745;
+    }
+    
+    .cancel-button {
+        background-color: #dc3545;
+    }
+    
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    @media (max-width: 600px) {
+        .main-container {
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        .input-container, .list-selector {
+            flex-direction: column;
+        }
+    
+        input[type="text"], input[type="date"], select, textarea {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    
+        button {
+            width: 100%;
+        }
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Jones's To Do List</h1>
+            <img src="logotodolist.jpg" alt="To-Do List Logo" class="logo">
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="container">
+            <h1>Todo List</h1>
+            <div class="list-selector">
+                <select id="list-selector">
+                    <!-- Options will be populated by JS -->
+                </select>
+                <button id="add-list">Add List</button>
+            </div>
+            <div class="input-container">
+                <input type="text" id="new-item" placeholder="Add a new item...">
+                <button id="add-item">Add</button>
+            </div>
+            <ul id="todo-list"></ul>
+        </div>
+        <div class="container">
+            <h1>Calendar</h1>
+            <div class="calendar-nav">
+                <button id="prev-month">&lt;</button>
+                <span id="current-month-year"></span>
+                <button id="next-month">&gt;</button>
+            </div>
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+    <!-- Edit Item Modal -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-edit-modal">&times;</span>
+            <h2>Edit Item</h2>
+            <input type="text" id="edit-item-input">
+            <button id="save-edit">Save</button>
+        </div>
+    </div>
+
+    <!-- Assign Date Modal -->
+    <div id="date-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-date-modal">&times;</span>
+            <h2>Assign Date</h2>
+            <input type="date" id="assign-date-input">
+            <button id="save-date">Save</button>
+        </div>
+    </div>
+
+    <!-- Set Priority Modal -->
+    <div id="priority-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-priority-modal">&times;</span>
+            <h2>Enter priority (High, Medium, Low):</h2>
+            <select id="priority-select">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+            <div class="modal-buttons">
+                <button id="save-priority" class="ok-button">OK</button>
+                <button id="cancel-priority" class="cancel-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="info-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-info-modal">&times;</span>
+            <h2>Item Info</h2>
+            <p id="info-text"></p>
+            <textarea id="info-notes" placeholder="Notizen..."></textarea>
+            <div class="modal-buttons">
+                <button id="save-info" class="ok-button">Save</button>
+                <button id="cancel-info" class="cancel-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
