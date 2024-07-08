@@ -75,20 +75,28 @@
             gap: 20px;
             width: 80%;
             max-width: 1200px;
-            margin-top: 100px; /* Adjust to make space for header */
+            margin-top: 100px;
         }
 
         .container {
             background-color: rgba(255, 255, 255, 0.9);
+            border: 2px solid #28a745;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
             width: 45%;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         h1, h2 {
             text-align: center;
             margin-bottom: 20px;
+            color: #28a745;
         }
 
         .list-selector, .input-container {

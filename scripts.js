@@ -43,6 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentInfoIndex = null;
     const lists = JSON.parse(localStorage.getItem('todoLists')) || { default: [] };
 
+    // Example of fetching data from an API
+    fetch('https://jsonplaceholder.typicode.com/posts/1')
+        .then(response => response.json())
+        .then(data => {
+            const post = document.createElement('div');
+            post.className = 'post';
+            post.innerHTML = `<h2>${data.title}</h2><p>${data.body}</p>`;
+            document.body.appendChild(post);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
     // Initialize the list selector
     function initializeListSelector() {
         listSelector.innerHTML = '';
